@@ -19,7 +19,7 @@ app.get('/', (request, response) => {
 
 app.get('/responses', async (req, res) => {
     try { 
-        const responses = await db.select('*').from('responses')
+        const responses = await db.select('*').from('responses').limit(100)
         res.status(200).json(responses)
     } catch (error) {
         res.status(500).json({ error: "Failed to get responses" })
