@@ -1,10 +1,12 @@
 import express from 'express'
 import knex from 'knex'
 import knexConfig from './knexfile.js'
-import { Model } from 'objection'
+// import { Model } from 'objection'
 
 const app = express()
 const db = knex(knexConfig.development)
+
+// Model.knex(db)
 
 app.set('port', process.env.PORT || 3001)
 app.locals.title = 'Kane Creek Comments'
@@ -15,7 +17,7 @@ app.get('/', (request, response) => {
   response.send('Welcome to Kane Creek Comments!')
 })
 
-app.get(responses, async (req, res) => {
+app.get('/responses', async (req, res) => {
     try { 
         const responses = await db.select('*').from('responses')
         res.status(200).json(responses)

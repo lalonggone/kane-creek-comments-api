@@ -1,13 +1,15 @@
-// Update with your config settings.
+import dotenv from 'dotenv'
+dotenv.config()
 
-/**
- * @type { Object.<string, import("knex").Knex.Config> }
- */
-module.exports = {
-
+const knexConfig = {
   development: {
     client: 'pg',
-    connection: 'postgress://localhost/kane_creek_responses',
+    connection: {
+      host: '127.0.0.1',
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+    },
     migrations: {
       directory: './db/migrations',
     },
@@ -48,5 +50,6 @@ module.exports = {
   //     tableName: 'knex_migrations'
   //   }
   // }
+}
 
-};
+export default knexConfig
