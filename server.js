@@ -5,7 +5,6 @@ import morgan from 'morgan'
 
 const app = express()
 const db = knex(knexConfig.development)
-// var morgan = require('morgan')
 
 app.set('port', process.env.PORT || 3001)
 app.locals.title = 'Kane Creek Comments'
@@ -20,9 +19,10 @@ app.get('/', (request, response) => {
 
 app.get('/responses', async (req, res) => {
     try { 
-        const responses = await db.select('*').from('responses').limit(1000)
+        const responses = await db.select('*').from('responses') //.limit(1000)
         res.status(200).json(responses)
     } catch (error) {
+      console.error('Error:', error)
         res.status(500).json({ error: "Failed to get responses" })
     }
 })
