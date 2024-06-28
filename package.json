@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "migrate": "knex migrate:latest --env production"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
@@ -18,3 +19,4 @@
     "eslint": "^8.57.0"
   }
 }
+
