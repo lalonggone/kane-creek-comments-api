@@ -7,7 +7,8 @@ import dotenv from 'dotenv';
 dotenv.config({ path: './.env.local' });
 
 const app = express();
-const db = knex(knexConfig[process.env.NODE_ENV || 'development']);
+const env = process.env.NODE_ENV || 'development';
+const db = knex(knexConfig[env]);
 
 app.set('port', process.env.PORT || 10000);
 app.locals.title = 'Kane Creek Comments';
@@ -15,7 +16,12 @@ app.locals.title = 'Kane Creek Comments';
 app.use(express.json());
 app.use(morgan('combined'));
 
-console.log('DB Configuration:', knexConfig[process.env.NODE_ENV || 'development']);
+// Log environment variables and knex configuration
+console.log('Environment:', env);
+console.log('DB Configuration:', knexConfig[env]);
+console.log('DB Host:', process.env.DB_HOST);
+console.log('DB User:', process.env.DB_USER);
+console.log('DB Name:', process.env.DB_NAME);
 
 app.get('/', (request, response) => {
   console.log('GET /');
@@ -26,6 +32,7 @@ app.get('/responses', async (req, res) => {
   console.log('GET /responses');
   try {
     const responses = await db.select('*').from('responses').limit(1000);
+    console.log('Fetched responses:', responses);
     res.status(200).json(responses);
   } catch (error) {
     console.error('Error fetching responses:', error);
