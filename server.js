@@ -20,7 +20,7 @@ app.get('/', (request, response) => {
 
 app.get('/responses', async (req, res) => {
   try { 
-    const responses = await db.select('*').from('responses').whereNotNull('comment');
+    const responses = await db.select('*').from('responses').whereNotNull('response');
     res.status(200).json(responses);
   } catch (error) {
     console.error('Error fetching responses:', error);
