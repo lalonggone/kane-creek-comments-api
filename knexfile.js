@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ path: './.env.local' });
 
 const knexConfig = {
   development: {
@@ -18,17 +18,16 @@ const knexConfig = {
     },
     useNullAsDefault: true,
   },
+
   production: {
     client: 'pg',
     connection: {
       connectionString: process.env.DATABASE_URL,
-      ssl: {
-        rejectUnauthorized: false,
-      },
+      ssl: { rejectUnauthorized: false },
     },
     pool: {
       min: 2,
-      max: 15,
+      max: 20,
     },
     migrations: {
       directory: './db/migrations',
