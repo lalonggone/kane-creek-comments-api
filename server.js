@@ -16,7 +16,7 @@ app.locals.title = 'Kane Creek Comments';
 app.use(express.json());
 app.use(morgan('combined'));
 
-// Log environment variables and knex configuration
+
 console.log('Environment:', env);
 console.log('DB Configuration:', knexConfig[env]);
 console.log('DB Host:', process.env.DB_HOST);
@@ -31,8 +31,8 @@ app.get('/', (request, response) => {
 app.get('/responses', async (req, res) => {
   console.log('GET /responses');
   try {
-    const responses = await db.select('*').from('responses').limit(1000);
-    console.log('Fetched responses:', responses);
+    const responses = await db.select('*').from('responses');
+    
     res.status(200).json(responses);
   } catch (error) {
     console.error('Error fetching responses:', error);
@@ -46,5 +46,5 @@ const server = app.listen(app.get('port'), '0.0.0.0', () => {
   );
 });
 
-server.keepAliveTimeout = 120000; // 120 seconds
-server.headersTimeout = 120000; // 120 seconds
+server.keepAliveTimeout = 120000; 
+server.headersTimeout = 120000; 
