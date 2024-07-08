@@ -3,6 +3,7 @@ import knex from 'knex';
 import knexConfig from './knexfile.js';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 dotenv.config({ path: './.env.local' });
 
@@ -16,6 +17,12 @@ app.locals.title = 'Kane Creek Comments';
 app.use(express.json());
 app.use(morgan('combined'));
 
+const corsOptions = {
+  origin: 'http://kane-creek-comments.vercel.app',
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 console.log('Environment:', env);
 console.log('DB Configuration:', knexConfig[env]);
