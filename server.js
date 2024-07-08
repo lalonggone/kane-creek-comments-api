@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(morgan('combined'));
 
 const corsOptions = {
-  origin: 'http://kane-creek-comments.vercel.app',
+  origin: 'https://kane-creek-comments.vercel.app',
   optionsSuccessStatus: 200,
 };
 
