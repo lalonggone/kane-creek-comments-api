@@ -5,7 +5,7 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
-dotenv.config({ path: './.env.local' });
+dotenv.config();
 
 const app = express();
 const env = process.env.NODE_ENV || 'development';
@@ -29,6 +29,7 @@ console.log('DB Configuration:', knexConfig[env]);
 console.log('DB Host:', process.env.DB_HOST);
 console.log('DB User:', process.env.DB_USER);
 console.log('DB Name:', process.env.DB_NAME);
+console.log('Database URL:', process.env.DATABASE_URL);
 
 app.get('/', (request, response) => {
   console.log('GET /');
@@ -39,7 +40,6 @@ app.get('/responses', async (req, res) => {
   console.log('GET /responses');
   try {
     const responses = await db.select('*').from('responses');
-    
     res.status(200).json(responses);
   } catch (error) {
     console.error('Error fetching responses:', error);
@@ -54,4 +54,4 @@ const server = app.listen(app.get('port'), '0.0.0.0', () => {
 });
 
 server.keepAliveTimeout = 120000; 
-server.headersTimeout = 120000; 
+server.headersTimeout = 120000;
