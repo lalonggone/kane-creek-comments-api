@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 .env
+# SQLite DB is derived from the dump (contains PII) — never commit it
+data/
+*.sqlite
+*.sqlite3
