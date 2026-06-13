@@ -72,6 +72,36 @@ app.get('/responses', async (req, res) => {
   }
 });
 
+// Aggregate counts for the public site (e.g. a "N comments submitted" banner).
+// All non-identifying totals — safe to expose, and cheap vs. fetching every row.
+app.get('/stats', async (req, res) => {
+  try {
+    const [{ total }] = await db('responses').count({ total: '*' });
+    const [{ named }] = await db('responses')
+      .where('anonymous', 'Yes')
+      .count({ named: '*' });
+    const byResidency = await db('responses')
+      .select('grand_county_resident')
+      .count({ count: '*' })
+      .groupBy('grand_county_resident');
+    const byConcernLevel = await db('responses')
+      .select('concern_level')
+      .count({ count: '*' })
+      .groupBy('concern_level')
+      .orderBy('concern_level');
+    res.status(200).json({
+      total,
+      named,
+      anonymous: total - named,
+      byResidency,
+      byConcernLevel,
+    });
+  } catch (error) {
+    console.error('Error fetching stats:', error);
+    res.status(500).json({ error: 'Failed to get stats' });
+  }
+});
+
 const server = app.listen(app.get('port'), app.get('host'), () => {
   console.log(
     `${app.locals.title} is running on http://${app.get('host')}:${app.get(
