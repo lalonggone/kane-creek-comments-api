@@ -7,15 +7,15 @@
     "start": "node server.js",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "migrate": "knex migrate:latest --env production",
-    "postdeploy": "npm run migrate"
+    "build:sqlite": "node scripts/build-sqlite.mjs"
   },
   "dependencies": {
+    "better-sqlite3": "^11.3.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "knex": "^3.1.0",
-    "morgan": "^1.10.0",
-    "pg": "^8.11.5"
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "eslint": "^8.57.0"
