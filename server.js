@@ -42,16 +42,17 @@ app.get('/', (request, response) => {
 // internal-only flags (volunteer, email_updates) that must NEVER be exposed, so
 // we use a strict field allowlist here — never select('*').
 //
-// `anonymous` is a free-text Google Form answer. Sharing/consent rules:
-//   'Yes'               -> consented to share publicly, show real name
-//   'Yes - anonymously' -> share the comment but credit it as "Anonymous"
-//   'No, thank you'     -> declined to share publicly -> excluded entirely
-// This is fail-closed: only the two known "share" values are returned, and only
-// an exact 'Yes' reveals a name. Any other or unexpected value is withheld.
+// `anonymous` is a free-text Google Form answer about sharing the commenter's
+// PERSONAL INFO (their name) — NOT about whether their response may be shown.
+// Every response is included; the flag only controls name display:
+//   'Yes'               -> consented to share their name -> show real name
+//   'Yes - anonymously' -> show the comment, credit it as "Anonymous"
+//   'No, thank you'     -> declined to share personal info -> credit as "Anonymous"
+// Fail-closed: only an exact 'Yes' reveals a name; any other or unexpected
+// value is shown as "Anonymous". (PII columns are never selected regardless.)
 app.get('/responses', async (req, res) => {
   try {
     const responses = await db('responses')
-      .whereIn('anonymous', ['Yes', 'Yes - anonymously'])
       .select(
         'id',
         'submitted_at',
