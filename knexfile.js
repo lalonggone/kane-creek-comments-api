@@ -1,24 +1,14 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-// DB engine is env-driven so the same code runs on SQLite (VPS) or Postgres.
-//   DB_CLIENT=better-sqlite3  -> SQLITE_FILE=/path/to/kane_creek.sqlite
-//   DB_CLIENT=pg              -> DATABASE_URL=postgres://...  (DB_SSL=true to require TLS)
-const client = process.env.DB_CLIENT || 'better-sqlite3';
-const isSqlite = client.includes('sqlite');
-
-const sqliteConnection = {
-  filename: process.env.SQLITE_FILE || './data/kane_creek.sqlite',
-};
-
-const pgConnection = {
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
-};
-
+// SQLite everywhere — the same engine runs locally, on the VPS, and on any
+// self-hosted box. The DB file path is env-driven:
+//   SQLITE_FILE=/path/to/kane_creek.sqlite
 const base = {
-  client,
-  connection: isSqlite ? sqliteConnection : pgConnection,
+  client: 'better-sqlite3',
+  connection: {
+    filename: process.env.SQLITE_FILE || './data/kane_creek.sqlite',
+  },
   migrations: { directory: './db/migrations' },
   seeds: { directory: './db/seeds' },
   useNullAsDefault: true,
@@ -26,10 +16,7 @@ const base = {
 
 const knexConfig = {
   development: base,
-  production: {
-    ...base,
-    pool: isSqlite ? undefined : { min: 1, max: 10 },
-  },
+  production: base,
 };
 
 export default knexConfig;
