@@ -40,11 +40,11 @@ app.get('/', (request, response) => {
 
 // The public field allowlist. The `responses` table holds PII (email, phone,
 // address) and internal-only flags (volunteer, email_updates) that must NEVER
-// be exposed, so every public query selects exactly these columns — never
+// be exposed, so every public query selects exactly these columns, never
 // select('*').
 //
 // `anonymous` is a free-text Google Form answer about sharing the commenter's
-// PERSONAL INFO (their name) — NOT about whether their response may be shown.
+// PERSONAL INFO (their name), NOT about whether their response may be shown.
 // The flag only controls name display:
 //   'Yes'               -> consented to share their name -> show real name
 //   'Yes - anonymously' -> show the comment, credit it as "Anonymous"
@@ -69,7 +69,7 @@ const RESIDENT = 'Yes, I am a resident';
 
 // PUBLIC, paginated + searchable feed. Query params:
 //   q         keyword, matched against the comment text + impacts (NOT the raw
-//             name — searching real names could confirm a person submitted even
+//             name (searching real names could confirm a person submitted even
 //             when their comment is shown as "Anonymous").
 //   residency 'all' (default) | 'residents'
 //   page      1-based (default 1)
@@ -135,7 +135,7 @@ app.get('/responses/:id', async (req, res) => {
 });
 
 // Aggregate counts for the public site (e.g. a "N comments submitted" banner).
-// All non-identifying totals — safe to expose, and cheap vs. fetching every row.
+// All non-identifying totals, safe to expose, and cheap vs. fetching every row.
 app.get('/stats', async (req, res) => {
   try {
     const [{ total }] = await db('responses').count({ total: '*' });

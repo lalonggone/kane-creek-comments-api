@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-// SQLite everywhere — the same engine runs locally, on the VPS, and on any
+// SQLite everywhere: the same engine runs locally, on the VPS, and on any
 // self-hosted box. The DB file path is env-driven:
 //   SQLITE_FILE=/path/to/kane_creek.sqlite
 const base = {

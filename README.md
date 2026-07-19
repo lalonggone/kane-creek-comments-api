@@ -1,4 +1,4 @@
-# Kane Creek Comments — API
+# Kane Creek Comments: API
 
 Express + SQLite (via knex) API that serves the public survey responses for
 [kanecreekwatch.org](https://kanecreekwatch.org). It backs the
@@ -44,7 +44,7 @@ npm run build:sqlite
 
 This drops and rebuilds the `responses` table from the migration schema, loads
 the dump's rows, and prints how many will be public vs withheld. It needs
-`pg_restore` on `PATH` (only to read the dump — no Postgres server required).
+`pg_restore` on `PATH` (only to read the dump; no Postgres server required).
 
 To run migrations against an existing DB without reloading data:
 
@@ -66,7 +66,7 @@ npm run lint
 | GET    | `/`              | Health/welcome string                                                                                                                               |
 | GET    | `/responses`     | Public paginated feed. Query: `q`, `residency` (`all`/`residents`), `page`, `limit` (default 12, max 100). Returns `{ results, total, page, limit }`. |
 | GET    | `/responses/:id` | Single public response by id                                                                                                                        |
-| GET    | `/stats`         | Aggregate counts (`total`, `named`, `anonymous`, `byResidency`, `byConcernLevel`) — safe, non-identifying totals                                    |
+| GET    | `/stats`         | Aggregate counts (`total`, `named`, `anonymous`, `byResidency`, `byConcernLevel`); safe, non-identifying totals                                     |
 
 ## Deployment
 

@@ -20,7 +20,7 @@ if (!DUMP_FILE) {
   process.exit(1);
 }
 
-// COPY column order as emitted by the dump (no `id` — it is auto-assigned).
+// COPY column order as emitted by the dump (no `id`; it is auto-assigned).
 const COLUMNS = [
   'submitted_at',
   'grand_county_resident',
